@@ -5,6 +5,8 @@ namespace Cornatul\Social\Http;
 
 
 use Cornatul\Social\Objects\Message;
+use Cornatul\Social\Service\GoogleMBNService;
+use Cornatul\Social\Service\GoogleMBService;
 use Cornatul\Social\Service\LinkedInService;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
@@ -14,29 +16,30 @@ use League\OAuth2\Client\Provider\LinkedIn;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+use League\OAuth2\Client\Provider\Google;
 
-class LinkedInController extends Controller
+class GoogleMBController extends Controller
 {
-    private LinkedIn $provider;
+    private Google $provider;
 
-    private LinkedInService $service;
+    private GoogleMBService $service;
 
     public function __construct()
     {
-        $this->provider = new LinkedIn([
-            'clientId' => config('social.linkedin.clientId'),
-            'clientSecret' => config('social.linkedin.clientSecret'),
-            'redirectUri' => config('social.linkedin.redirectUri'),
+        $this->provider = new Google([
+            'clientId' => config('social.google.clientId'),
+            'clientSecret' => config('social.google.clientSecret'),
+            'redirectUri' => config('social.google.redirectUri'),
         ]);
 
-        $this->service = new LinkedInService($this->provider);
+        $this->service = new GoogleMBService($this->provider);
     }
 
 
 
     public function index()
     {
-        return view('social::linkedin.index');
+        return view('social::google.index');
     }
 
     public function login(Request $request)
@@ -53,8 +56,8 @@ class LinkedInController extends Controller
     public function callback(Request $request)
     {
         $accessToken = $this->service->getAccessToken($request->input('code'));
-        session()->put('linkedin_access_token', $accessToken);
-        return redirect()->route('social.linkedin.index');
+        session()->put('google_access_token', $accessToken);
+        return redirect()->route('social.google.index');
     }
 
 
@@ -76,8 +79,7 @@ class LinkedInController extends Controller
             'image' => 'required',
         ]);
 
-        //todo inspect this code for the posting to see why it doesn't pick up the image
-        $accessToken = session()->get('linkedin_access_token');
+        $accessToken = session()->get('google_access_token');
 
         $message = new Message();
 
@@ -89,6 +91,6 @@ class LinkedInController extends Controller
 
         $this->service->shareOnWall($accessToken, $message);
 
-        return redirect(route('social.linkedin.index'))->with('success', 'Post shared successfully.');
+        return redirect(route('social.google.index'))->with('success', 'Post shared successfully.');
     }
 }

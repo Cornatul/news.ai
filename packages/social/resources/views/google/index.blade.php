@@ -1,9 +1,9 @@
 @extends('marketing::layouts.app')
 
-@section('title', __('Social Sharing Linkedin'))
+@section('title', __('Google My Business Sharing Tool'))
 
 @section('heading')
-    {{ __('Social Linkedin') }}
+    {{ __('Google My Business') }}
 @endsection
 
 @section('content')
@@ -15,11 +15,11 @@
     <!-- Cards !-->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ __('LinkedIn') }}</h3>
+            <h3 class="card-title">{{ __('Google My Business') }}</h3>
         </div>
         <div class="card-body">
             <div class="row">
-                @if(session()->has('linkedin_access_token'))
+                @if(session()->has('google_access_token'))
                     <div class="col-md-12">
                         <form action="{{ route('social.linkedin.shareAction') }}" method="post">
                             @csrf
@@ -52,8 +52,8 @@
                     </div>
                 @else
                 <div class="col-md-12">
-                    <a href="{{ route('social.linkedin.login') }}" class="btn btn-info">
-                        Login with LinkedIn
+                    <a href="{{ route('social.google.login') }}" class="btn btn-info">
+                        Login with Google
                     </a>
                 </div
                 @endif

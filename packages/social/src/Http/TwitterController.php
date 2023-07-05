@@ -4,6 +4,7 @@ namespace Cornatul\Social\Http;
 
 
 
+use Cornatul\Social\Objects\Message;
 use Cornatul\Social\Service\GithubService;
 use Cornatul\Social\Service\TwitterService;
 use Illuminate\Http\RedirectResponse;
@@ -27,9 +28,11 @@ class TwitterController extends Controller
 
 
 
-    public function index()
+    public function index(TwitterService $service)
     {
-        return view('social::twitter.index');
+        $trends = $service->getTrends();
+
+        return view('social::twitter.index', compact('trends'));
     }
 
     /**
@@ -38,7 +41,17 @@ class TwitterController extends Controller
     public function shareAction(Request $request): RedirectResponse
     {
 
-        $this->service->shareOnWall($request->input('message'));
+        $request->validate([
+            'message' => 'required',
+            'url' => 'required',
+        ]);
+
+        $message = new Message();
+        $body = $request->input('message');
+        $message->setBody($body);
+        $message->setUrl($request->input('url'));
+
+        $this->service->shareOnWall($message);
 
         return redirect(route('social.twitter.index'))->with('success', 'Post shared successfully.');
     }

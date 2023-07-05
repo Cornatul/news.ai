@@ -3,6 +3,10 @@
         <a class="nav-link {{ request()->routeIs('social.linked') ? 'active'  : '' }}"
            href="{{ route('social.linkedin.index') }}">{{ __('LinkedIn') }}</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('social.google') ? 'active'  : '' }}"
+           href="{{ route('social.google.index') }}">{{ __('Google Business') }}</a>
+    </li>
 
     <li class="nav-item">
         <a class="nav-link {{ request()->routeIs('social.twitter') ? 'active'  : '' }}"

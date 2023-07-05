@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Cornatul\Social;
 
 
+use Cornatul\Social\Console\LinkedInPublishCommand;
 use Cornatul\Social\Console\MediumPublishCommand;
 
 class SocialServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -21,6 +22,7 @@ class SocialServiceProvider extends \Illuminate\Support\ServiceProvider
         );
         $this->commands([
             MediumPublishCommand::class,
+            LinkedInPublishCommand::class,
         ]);
     }
 

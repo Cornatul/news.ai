@@ -4,6 +4,16 @@
     </IfModule>
 
     RewriteEngine On
+    # behind proxy
+    RewriteCond %{HTTP:X-FORWARDED-PROTO} ^http$
+    RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # plain
+    RewriteCond %{HTTP:X-FORWARDED-PROTO} ^$
+    RewriteCond %{REQUEST_SCHEME} ^http$ [NC,OR]
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
+
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

@@ -42,12 +42,11 @@ class InstagramService
 
     public function share($accessToken, $message)
     {
-        $response = $this->provider->getAuthenticatedRequest(
+        return $this->provider->getAuthenticatedRequest(
             'POST',
             'https://api.instagram.com/v1/users/self/media/recent',
             $accessToken,
             ['body' => $message]
         );
-        return $response;
     }
 }

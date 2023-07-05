@@ -5,10 +5,24 @@ Currently supported networks are:
 - Github
 - Twitter
 - Medium
+- Dev.to
+- Tumblr
 
 ## Installation
 
 ### Composer
 ```bash
-composer require drupal/social
+composer require cornatul/social
 ```
+
+### Project still in development
+
+# To do
+- []Jobs Creation
+- []Facebook
+- []Instagram
+- []Pinterest
+- []Reddit
+
+# License
+MIT

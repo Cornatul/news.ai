@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace Cornatul\Social\Service;
 
+use Cornatul\Social\Objects\Message;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\Github;
 use League\OAuth2\Client\Provider\LinkedIn;
@@ -42,11 +45,10 @@ class GithubService
     }
 
     /**
-     * @todo replace message with a message object
      * @throws GuzzleException
      * @throws \JsonException
      */
-    public function createGist(AccessTokenInterface $accessToken, string $message)
+    public function createGist(AccessTokenInterface $accessToken, Message $message):Collection
     {
         $client = new Client();
 
@@ -59,14 +61,15 @@ class GithubService
                 'description' => 'Gist created by https://lzomedia.com',
                 'public' => true,
                 'files' => [
-                    'article.md' => [
-                        'content' => $message,
+                   Str::slug($message->getTitle()) => [
+                        'content' => $message->getBody(),
                     ],
                 ],
             ], JSON_THROW_ON_ERROR),
         ]);
 
-        return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-
+        return collect(
+            json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)
+        );
     }
 }

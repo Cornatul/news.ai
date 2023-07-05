@@ -43,11 +43,20 @@ class DevToController extends Controller
     public function shareAction(Request $request): RedirectResponse
     {
 
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'image' => 'required',
+            'tags' => 'required',
+        ]);
+
         $message = new Message();
         $message->setTitle($request->input('title'));
         $message->setBody($request->input('body'));
         $message->setImage($request->input('image'));
+        $tags = explode(',', $request->input('tags'));
 
+        $message->setTagsAsArray($tags);
 
         $this->service->shareOnWall($message);
 

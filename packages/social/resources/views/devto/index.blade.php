@@ -23,14 +23,23 @@
                         @csrf
                         <div class="form-group">
                             <label for="title">{{ __('Title') }}</label>
+                            <small class="form-text text-muted">{{ __('The title of your post') }}</small>
                             <input type="text" name="title" id="title" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label for="title">{{ __('Tags') }}</label>
+                            <small class="form-text text-muted">{{ __('The tags of your post following this pattern tag1,tag2 ...') }}</small>
+                            <input type="text" name="tags" id="title" class="form-control">
+                        </div>
+
+                        <div class="form-group">
                             <label for="title">{{ __('Image') }}</label>
+                            <small class="form-text text-muted">{{ __('The image of your post') }}</small>
                             <input type="text" name="image" id="title" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="content">{{ __('Content') }}</label>
+                            <small class="form-text text-muted">{{ __('The content of your post in markdown format') }}</small>
                             <textarea name="body" id="content" class="form-control" rows="5"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Share</button>

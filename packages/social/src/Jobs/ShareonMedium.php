@@ -4,6 +4,7 @@ namespace Cornatul\Social\Jobs;
 
 use Cornatul\Social\Objects\Message;
 use Cornatul\Social\Service\LinkedInService;
+use Cornatul\Social\Service\MediumService;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -16,10 +17,10 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ShareonLinkedIn implements ShouldQueue
+class ShareonMedium implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected LinkedInService $linkedInService;
+    protected MediumService $linkedInService;
     protected Message $message;
 
     /**
@@ -27,7 +28,10 @@ class ShareonLinkedIn implements ShouldQueue
      */
     public function __construct(Message $message)
     {
-        $this->linkedInService = app()->make(LinkedInService::class);
+        /**
+         * @var MediumService
+         */
+        $this->linkedInService = app()->make(MediumService::class);
         $this->message = $message;
     }
 

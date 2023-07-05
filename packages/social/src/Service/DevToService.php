@@ -29,17 +29,18 @@ class DevToService
      * @throws GuzzleException
      * @throws \JsonException
      */
-    public function shareOnWall(Message $message)
+    public function shareOnWall(Message $message):array
     {
-        $response = $this->client->post('articles',
+        $response = $this->client->post(
+            'articles',
             [
                 'json' => [
                     "article" => [
                         "title"         => $message->getTitle(),
                         "published"     => true,
-                        "body_markdown" => $message->getBody() . " created by [Software Developer](https://lzomedia.com) ",
+                        "body_markdown" => $message->getBody() . Message::SIGNATURE,
                         "main_image"    => $message->getImage(),
-                        "tags"          => [],
+                        "tags"          => $message->getTagsAsArray(),
                     ]
                 ]
             ]

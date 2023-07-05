@@ -84,7 +84,7 @@ return [
     */
 
     'waits' => [
-        'redis:default' => 60,
+        'redis:default' => 120,
     ],
 
     /*
@@ -228,6 +228,16 @@ return [
                 'maxProcesses' => 10,
                 'tries' => 1,
             ],
+
+            'supervisor-8' => [
+                'connection' => 'rabbitmq',
+                'queue' => ['wordpress_publish'],
+                'processes' => 10,
+                'balance' => 'auto',
+                'minProcesses' => 2,
+                'maxProcesses' => 10,
+                'tries' => 1,
+            ],
         ],
         'local' => [
             'supervisor-1' => [
@@ -285,6 +295,15 @@ return [
             'supervisor-7' => [
                 'connection' => 'rabbitmq',
                 'queue' => ['feed-finder'],
+                'processes' => 10,
+                'balance' => 'auto',
+                'minProcesses' => 2,
+                'maxProcesses' => 10,
+                'tries' => 1,
+            ],
+            'supervisor-8' => [
+                'connection' => 'rabbitmq',
+                'queue' => ['wordpress_publish'],
                 'processes' => 10,
                 'balance' => 'auto',
                 'minProcesses' => 2,

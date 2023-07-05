@@ -35,4 +35,10 @@ return [
         'redirect' => env('LINKEDIN_REDIRECT_URI')
     ],
 
+    'wp' => [
+        'username' => env('WP_USERNAME'),
+        'password' => env('WP_PASSWORD'),
+        'url' => env('WP_URL'),
+    ],
+
 ];

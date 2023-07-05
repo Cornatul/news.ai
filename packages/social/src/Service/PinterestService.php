@@ -9,10 +9,9 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Http;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\LinkedIn;
-use League\OAuth2\Client\Token\AccessTokenInterface;
 use League\OAuth2\Client\Token\LinkedInAccessToken;
 
-class LinkedInService
+class PinterestService
 {
     private LinkedIn $provider;
 
@@ -46,7 +45,7 @@ class LinkedInService
      * @throws GuzzleException
      * @throws \JsonException
      */
-    public function shareOnWall(AccessTokenInterface $accessToken, Message $message)
+    public function shareOnWall(LinkedInAccessToken $accessToken, Message $message)
     {
         $user = $this->provider->getResourceOwner($accessToken);
 
@@ -98,6 +97,4 @@ class LinkedInService
             'json' => $body,
         ]);
     }
-
-
 }

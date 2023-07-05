@@ -21,8 +21,7 @@ Route::get('setup', 'SetupController@index')->name('setup');
 
 // Auth.
 Route::middleware('auth')->namespace('Auth')->group(
-    static function (Router $authRouter)
-    {
+    static function (Router $authRouter) {
         // Logout.
         $authRouter->get('logout', 'LoginController@logout')->name('logout');
 
@@ -52,16 +51,14 @@ Route::namespace('Workspaces')
     ->name('users.')
     ->prefix('users')
     ->group(
-        static function (Router $workspacesRouter)
-        {
+        static function (Router $workspacesRouter) {
             $workspacesRouter->get('/', 'WorkspaceUsersController@index')->name('index');
             $workspacesRouter->delete('{userId}', 'WorkspaceUsersController@destroy')->name('destroy');
 
             // Invitations.
             $workspacesRouter->name('invitations.')->prefix('invitations')
                 ->group(
-                    static function (Router $invitationsRouter)
-                    {
+                    static function (Router $invitationsRouter) {
                         $invitationsRouter->post('/', 'WorkspaceInvitationsController@store')->name('store');
                         $invitationsRouter->delete('{invitation}', 'WorkspaceInvitationsController@destroy')
                             ->name('destroy');
@@ -78,8 +75,7 @@ Route::namespace('Workspaces')->middleware(
         RequireWorkspace::class
     ]
 )->group(
-    static function (Router $workspaceRouter)
-    {
+    static function (Router $workspaceRouter) {
         $workspaceRouter->resource('workspaces', 'WorkspacesController')->except(
             [
                 'create',
@@ -101,8 +97,7 @@ Route::namespace('Workspaces')->middleware(
 );
 
 Route::middleware(['auth', 'verified', RequireWorkspace::class])->group(
-    static function ()
-    {
+    static function () {
         MarketingPortal::webRoutes();
     }
 );
@@ -110,6 +105,3 @@ Route::middleware(['auth', 'verified', RequireWorkspace::class])->group(
 MarketingPortal::publicWebRoutes();
 
 
-///
-Route::get('login/linkedin', [SocialLoginController::class, 'loginWithLinkedIn']);
-Route::get('login/linkedin/callback', [SocialLoginController::class, 'handleLonginWithLinkedIn']);

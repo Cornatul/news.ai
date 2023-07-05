@@ -8,7 +8,8 @@ use Cornatul\Marketing\Base\Facades\MarketingPortal;
 
 Route::middleware([
     config('sendportal-host.throttle_middleware'),
-    RequireWorkspace::class
+    RequireWorkspace::class,
+    'auth:api',
 ])->group(function() {
 
     // Auth'd API routes (workspace-level auth!).

@@ -9,8 +9,8 @@ use Cornatul\Social\Service\GithubService;
 use Cornatul\Social\Service\MediumService;
 use Cornatul\Social\Service\TwitterService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\Github;
 use PHPUnit\TextUI\RuntimeException;
@@ -39,12 +39,23 @@ class MediumController extends Controller
      */
     public function shareAction(Request $request): RedirectResponse
     {
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'image' => 'required',
+            'tags' => 'required',
+            'url' => 'required',
+        ]);
 
         $message = new Message();
         $message->setTitle($request->input('title'));
-        $message->setBody($request->input('body'));
         $message->setImage($request->input('image'));
+        $message->setBody($request->input('body'));
+        $message->setUrl($request->input('url'));
 
+        $tags = explode(',', $request->input('tags'));
+
+        $message->setTagsAsArray($tags);
 
         $this->service->shareOnWall($message);
 

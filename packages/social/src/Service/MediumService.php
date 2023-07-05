@@ -4,28 +4,36 @@ namespace Cornatul\Social\Service;
 
 use Cornatul\Social\Contracts\ShareContract;
 use Cornatul\Social\Objects\Message;
+use Illuminate\Support\Collection;
 use JonathanTorres\MediumSdk\Medium;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 
 class MediumService
 {
-    public function shareOnWall(Message $message)
+
+    public Medium $provider;
+
+    public function __construct(Medium $provider)
     {
-        $medium = new Medium();
+        $this->provider = $provider;
+    }
 
-        $medium->connect(config('social.medium.token'));
+    public function shareOnWall(Message $message):Collection
+    {
 
-        $user = $medium->getAuthenticatedUser();
+        $this->provider->connect(config('social.medium.token'));
+
+        $user = $this->provider->getAuthenticatedUser();
 
         $data = [
             'title' => $message->getTitle(),
             'contentFormat' => 'markdown',
-            'content' => $message->getBody(),
+            'content' => "<img src='{$message->getImage()}' /> <br />{$message->getBody()} <br/>". Message::SIGNATURE,
+            'canonicalUrl' => $message->getUrl(),
             'publishStatus' => 'public',
-            'tags' => $message->getTags(),
+            'tags' => $message->getTagsAsArray(),
         ];
 
-        return $medium->createPost($user->data->id, $data);
-
+        return collect($this->provider->createPost($user->data->id, $data));
     }
 }

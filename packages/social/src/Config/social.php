@@ -6,6 +6,11 @@ return [
         'clientSecret' => env('LINKEDIN_CLIENT_SECRET', ''),
         'redirectUri' => env('LINKEDIN_REDIRECT_URI', ''),
     ],
+    'google' => [
+        'clientId' => env('GOOGLE_CLIENT_ID', ''),
+        'clientSecret' => env('GOOGLE_CLIENT_SECRET', ''),
+        'redirectUri' => env('GOOGLE_REDIRECT_URI', ''),
+    ],
     'twitter' => [
         'consumerKey' => env('TWITTER_CONSUMER_KEY', ''),
         'consumerSecret' => env('TWITTER_CONSUMER_SECRET', ''),
